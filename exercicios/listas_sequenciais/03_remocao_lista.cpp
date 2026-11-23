@@ -105,6 +105,64 @@ void funcao03(listaPessoa *&ponteiroSequencial, int *tamanhoLista, string nome, 
 }
 
 
+void funcao04(listaPessoa *&ponteiroSequencial, int *tamanhoLista){
+    // Criar uma lista com uma posição a menos
+    listaPessoa *novaListaSeq = new listaPessoa[*tamanhoLista-1];
+
+    // Passar os elementos da lista antiga, ignorando o primeiro
+    for(int i = 1; i < *tamanhoLista; i++){
+        novaListaSeq[i-1].nome = ponteiroSequencial[i].nome;
+        novaListaSeq[i-1].rg = ponteiroSequencial[i].rg;
+    }
+
+    // Atualizar o ponteiro para a lista nova 
+    ponteiroSequencial = novaListaSeq;
+
+    // Reduzir o tamanho da lista 
+    *tamanhoLista = *tamanhoLista - 1;
+}
+
+
+void funcao05(listaPessoa *&ponteiroSequencial, int *tamanhoLista){
+    // Criar uma lista com uma posição a menos
+    listaPessoa *novaListaSeq = new listaPessoa[*tamanhoLista-1];
+
+    // Passar os elementos da lista antiga, ignorando o ultimo
+    for(int i = 0; i < *tamanhoLista - 1; i++){
+        novaListaSeq[i].nome = ponteiroSequencial[i].nome;
+        novaListaSeq[i].rg = ponteiroSequencial[i].rg;
+    }
+
+    // Atualizar o ponteiro para a lista nova 
+    ponteiroSequencial = novaListaSeq;
+
+    // Reduzir o tamanho da lista 
+    *tamanhoLista = *tamanhoLista - 1;
+}
+
+
+void funcao06(listaPessoa *&ponteiroSequencial, int *tamanhoLista, int posicao){
+    // Criar uma lista com uma posição a menos
+    listaPessoa *novaListaSeq = new listaPessoa[*tamanhoLista-1];
+
+    // Passa os valores ignorando a posicão escolhida
+    for(int i = 0; i < *tamanhoLista - 1; i++){
+        // Verifica se estiver antes da posicao
+        if (i < posicao){
+            novaListaSeq[i].nome = ponteiroSequencial[i].nome;
+            novaListaSeq[i].rg = ponteiroSequencial[i].rg;            
+        } else {
+            novaListaSeq[i].nome = ponteiroSequencial[i+1].nome;
+            novaListaSeq[i].rg = ponteiroSequencial[i+1].rg;              
+        }
+    }
+
+    // Atualizar o ponteiro para a lista nova 
+    ponteiroSequencial = novaListaSeq;
+
+    // Reduzir o tamanho da lista 
+    *tamanhoLista = *tamanhoLista - 1;
+}
 
 int main(){
     // Variáveis 
@@ -172,7 +230,6 @@ int main(){
                 } else{
                     funcao02(ponteiroSequencial, &tamanhoLista, nome, rg);
                 }
-
                 break;
             
             case 3:
@@ -191,8 +248,44 @@ int main(){
                 } else {
                     funcao03(ponteiroSequencial, &tamanhoLista, nome, rg, posicao);   // Adiciona em uma posicao específica
                 }
-                
                 break;
+            
+            case 4:
+                cout << "Funcao escolhida: 4 - Retirar um node do inicio da lista\n";
+                
+                if(tamanhoLista == 0){
+                    cout << "\nLista vazia!\n";   // Verificar se a lista for vazia
+                } else {
+                    funcao04(ponteiroSequencial, &tamanhoLista);
+                }
+                break;
+            
+            case 5:
+                cout << "Funcao escolhida: 5 - Retirar um node no fim da lista\n";
+                if(tamanhoLista == 0){
+                    cout << "\nLista vazia!\n";   // Verificar se a lista for vazia
+                } else {
+                    funcao05(ponteiroSequencial, &tamanhoLista);
+                }
+                break;
+            
+            case 6: 
+                cout << "Funcao escolhida: 6 - Retirar um node na posicao N\n";
+                if(tamanhoLista == 0){
+                    cout << "\nLista vazia!\n";   // Verificar se a lista for vazia
+                } else {
+                    cout << "Digite uma posicao: ";
+                    cin >> posicao;
+
+                    if(posicao == 0){
+                        funcao04(ponteiroSequencial, &tamanhoLista);
+                    } else if (posicao == tamanhoLista - 1){
+                        funcao05(ponteiroSequencial, &tamanhoLista);
+                    } else {
+                        funcao06(ponteiroSequencial, &tamanhoLista, posicao);
+                    }
+                }
+                break;            
         }
     }
 }
