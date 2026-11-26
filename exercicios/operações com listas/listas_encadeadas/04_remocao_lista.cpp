@@ -152,6 +152,56 @@ void funcao04(pessoa *&ponteiroEncadeado){
 }
 
 
+void funcao05(pessoa *&ponteiroEncadeado){
+    // Auxiliares
+    pessoa *p = new pessoa; 
+    pessoa *aux = new pessoa; 
+
+    p = ponteiroEncadeado;
+
+    // Passa pela lista 
+    while(p -> proximo != NULL){
+        // Auxiliar sempre fica sendo uma posição antes do cursor
+        aux = p;
+        // Passa o cursor para o próximo elemento
+        p = p -> proximo;
+
+    }
+
+    // Muda o final da lista para o penultimo elemento
+    aux -> proximo = NULL;
+}
+
+
+void funcao06(pessoa *&ponteiroEncadeado, int posicao){
+    // Ponteiro cursor auxilar 
+    pessoa *p = ponteiroEncadeado;
+    
+    // Contador de posição
+    int i = 0;
+
+    while(i <= posicao){
+        if(i == posicao - 1){
+            // Auxiliar 
+            pessoa *aux = new pessoa;
+
+            // Aux recebe o elemento que será eliminado
+            aux = p -> proximo;
+
+            // Faz o proximo pular um elemento
+            p -> proximo = aux -> proximo;
+            free(aux);
+        }
+
+        // Passa o cursor para o próximo elemento
+        p = p -> proximo;
+
+        i++;
+    }
+
+}
+
+
 int main(){
     // Variáveis
     int funcaoDesejada = 1;
@@ -257,10 +307,33 @@ int main(){
                 break;
 
             case 4:
-                cout << "4 - Retirar um node do inicio da lista\n";
+                cout << "Funcao escolhida: 4 - Retirar um node do inicio da lista\n";
                 funcao04(ponteiroEncadeado);
 
                 break;
+
+            case 5:
+                cout << "Funcao escolhida: 5 - Retirar um node do fim da lista\n";
+                if(retornaTamanho(ponteiroEncadeado) == 1){
+                    funcao04(ponteiroEncadeado);
+                } else{
+                    funcao05(ponteiroEncadeado);
+                }
+
+                break;
+            
+            case 6:
+            cout << "Funcao escolhida: 6 - Retirar um node na posicao N\n";
+            cout << "Digite a posicao: ";
+            cin >> posicao;
+
+            if(posicao == 0){
+                funcao04(ponteiroEncadeado);
+            } else if(posicao =retornaTamanho(ponteiroEncadeado) - 1){
+                funcao05(ponteiroEncadeado);
+            } else {
+                funcao06(ponteiroEncadeado, posicao);
+            }
         }
 
     }
